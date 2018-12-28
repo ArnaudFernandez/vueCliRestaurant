@@ -1,0 +1,90 @@
+.response {
+	border:1px solid black;
+	background-color:lightGrey;
+	padding:20px;
+	margin: 20px
+}
+
+input:invalid {
+	background-color:lightpink;
+}
+
+input:valid {
+	background-color:lightgreen;
+}
+
+table
+{
+	margin: auto;
+}
+
+input, h3
+{
+	margin-bottom: 20px;
+}
+
+h1
+{
+	text-align: center;
+}
+
+h3
+{
+	text-align: center;
+}
+
+.sliderRow > input
+{
+	width : 100%;
+}
+
+label
+{
+	text-align: center;
+}
+
+.card
+{
+	width : 50%;
+	text-align: center;
+	margin: auto;
+	background-color: #e2ebff;
+}
+
+.addPlat > label
+{
+	width : 300px;
+}
+
+.containerButtons {
+	width :50%;
+	margin: auto;
+}
+
+.buttonTable {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.sliderRow
+{
+	width : 50%;
+	margin: auto;
+}
+
+.formModification {
+	text-align: center;
+}
+
+.mainTable {
+	width : 90%;
+	margin : auto;
+	text-align: center;
+	border: solid 1px #c8ddff;
+	border-radius: 2px;
+}
+
+.mainTable > tr
+{
+	border: solid 1px #c8ddff;
+}

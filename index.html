@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.3/vue.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script src="https://cdn.jsdelivr.net/lodash/4/lodash.min.js"></script>
+	<script src="js/crudAvecFetchAvecTable.js"></script>
+    <!-- import Vue.js -->
+    <script src="//vuejs.org/js/vue.min.js"></script>
+    <!-- import stylesheet -->
+    <link rel="stylesheet" href="//unpkg.com/iview/dist/styles/iview.css">
+    <!-- import iView -->
+    <script src="//unpkg.com/iview/dist/iview.min.js"></script>
+	<script src="script.js"></script>
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:400,500,700,400italic|mderial+Icons">
+    <link rel="stylesheet" href="css/styles.css"/>
+	<title>Fernandez-Khorn</title>
+</head>
+<body>
+<div id="app">
+
+    <h1>Nombre de restaurants : {{nbRestaurants}}</h1>
+    <div id="responseDELETE"></div>
+    <div id="reponsePUT"></div>
+
+    <table>
+        <tr>
+            <td>
+                <label>
+                    Page
+                </label>
+                <i-input type="number" v-model="page" max="40" v-on:change="getRestaurantFromServer"></i-input>
+            </td>
+
+            <td>
+                <label>
+                    Recherche
+                </label>
+                <i-input type="text"
+                       v-on:input="chercherRestaurants"
+                       v-model="nameResearch"
+                ></i-input>
+
+            </td>
+        </tr>
+    </table>
+    <div class="sliderRow">
+        <h3>Résultats par page : {{nbRestaurantsParPage}}</h3>
+        <input type="range" v-on:change="newPageCount" min="5" max="100" step="5" id="nombreRestaurantsParPage" v-model="nbRestaurantsParPage"/>
+    </div>
+    <div></div>
+
+    <Card v-for="r,index in restaurants" v-if="isRowInModify(index)" class="card">
+
+        <h3>En cours de modification : {{r.name}}</h3>
+        <form id="formulaireModification" class="formModification">
+            <!-- If this row is in modify, then it should display inputs -->
+            <label>Nom</label>
+            <i-input type="text" v-model="r.name" id="newName"></i-input>
+            <label>Cuisine</label>
+            <i-input type="text" v-model="r.cuisine" id="newCuisine"></i-input>
+            <i-button type="submit" type="primary" id="acceptModifyi-Button1" v-on:click="sendModifiedValues(index,r)">Valider</i-button>
+            <i-button id="cancel-Button" type="error" v-on:click="switchModifyMode(index)" v-if="modifyMode">Annuler</i-button>
+        </form>
+    </Card>
+    <table class="mainTable">
+        <tr>
+            <th>Nom</th>
+            <th>Cuisine</th>
+            <th>Delete</th>
+            <th v-if="!modifyMode">Modify</th>
+
+        </tr>
+        <tr
+                v-for="r,index in restaurants"
+                v-bind:class="{bordureRouge:(index === 2)}"
+        >
+            <td v-bind:style="{backgroundColor:getColor(index)}">{{r.name}}</td>
+            <td v-bind:style="{backgroundColor:getColor(index)}"> {{r.cuisine}}</td>
+
+            <td v-bind:style="{backgroundColor:getColor(index)}">
+                <i-button id="deletei-Button" v-on:click="supprimer(r)">Supprimer</i-button>
+            </td>
+            <td v-bind:style="{backgroundColor:getColor(index)}">
+                <i-button id="modifyi-Button" v-on:click="switchModifyMode(index)" v-if="!modifyMode">Modifier</i-button>
+
+            </td>
+            </form>
+        </tr>
+    </table>
+    <div class="containerButtons">
+        <table class="buttonTable">
+            <tr>
+                <td><i-button v-on:click="premierePage()">First page</i-button></td>
+                <td><i-button v-on:click="pagePrecedente()">Previous</i-button></td>
+                <td><i-button v-on:click="pageSuivante()">Next</i-button></td>
+                <td><i-button v-on:click="dernierePage()">Last page</i-button></td>
+            </tr>
+        </table>
+    </div>
+
+
+
+    <Card class="card">
+        <h2>Ajouter un nouveau plat</h2>
+        <form v-on:submit="ajouterRestaurant">
+            <table>
+                <tr>
+                    <td>
+                        <label>
+                            Nom <i-input type="text" required v-model="name"></i-input>
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>
+                            Cuisine <i-input type="text" required v-model="cuisine"></i-input>
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td><i-button type="submit" v-on:click="ajouterRestaurant">Ajouter</i-button></td>
+                </tr>
+            </table>
+        </form>
+    </Card>
+
+    <div id="reponseGET"></div>
+
+	<br/>
+	<p>Nombre de restaurants par page : {{nbRestaurantsParPage}}</p>
+
+
+</div>
+
+</body>
+</html>
